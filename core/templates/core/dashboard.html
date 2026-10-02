@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}ড্যাশবোর্ড - TaskMaster{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fa-solid fa-folder-open me-2 text-warning"></i>আপনার প্রজেক্টসমূহ</h2>
+    <a href="{% url 'create_project' %}" class="btn btn-success fw-bold"><i class="fa-solid fa-plus me-1"></i> নতুন প্রজেক্ট</a>
+</div>
+
+<div class="row">
+    {% for project in projects %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100 border-start border-4 border-primary">
+                <div class="card-body">
+                    <h4 class="card-title text-dark">{{ project.title }}</h4>
+                    <p class="card-text text-muted">{{ project.description|default:"কোনো বিবরণ দেওয়া হয়নি।"|truncatewords:15 }}</p>
+                    <hr>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <small class="text-muted"><i class="fa-solid fa-users me-1"></i> {{ project.members.count|add:1 }} মেম্বার</small>
+                        <a href="{% url 'project_detail' project.id %}" class="btn btn-outline-primary btn-sm">বোর্ড দেখুন <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12 text-center py-5">
+            <h4 class="text-muted">এখনো কোনো প্রজেক্ট তৈরি করা হয়নি!</h4>
+            <a href="{% url 'create_project' %}" class="btn btn-primary mt-2">প্রথম প্রজেক্ট তৈরি করুন</a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

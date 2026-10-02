@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}{{ project.title }} - Kanban Board{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2>{{ project.title }}</h2>
+        <p class="text-muted m-0">{{ project.description }}</p>
+    </div>
+    <a href="{% url 'create_task' project.id %}" class="btn btn-primary fw-bold"><i class="fa-solid fa-plus me-1"></i> নতুন টাস্ক যোগ করুন</a>
+</div>
+
+<div class="row g-3">
+    <!-- To Do Column -->
+    <div class="col-md-3">
+        <div class="kanban-col shadow-sm">
+            <h5 class="text-secondary fw-bold mb-3"><i class="fa-solid fa-list me-2"></i>To Do ({{ todo_tasks.count }})</h5>
+            {% for task in todo_tasks %}
+                {% include 'core/task_card.html' with task=task next_status='in_progress' next_text='In Progress' %}
+            {% empty %}
+                <p class="text-center text-muted small my-3">কোনো টাস্ক নেই</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- In Progress Column -->
+    <div class="col-md-3">
+        <div class="kanban-col shadow-sm">
+            <h5 class="text-primary fw-bold mb-3"><i class="fa-solid fa-spinner me-2"></i>In Progress ({{ in_progress_tasks.count }})</h5>
+            {% for task in in_progress_tasks %}
+                {% include 'core/task_card.html' with task=task next_status='review' next_text='Review' %}
+            {% empty %}
+                <p class="text-center text-muted small my-3">কোনো টাস্ক নেই</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Review Column -->
+    <div class="col-md-3">
+        <div class="kanban-col shadow-sm">
+            <h5 class="text-warning fw-bold mb-3"><i class="fa-solid fa-magnifying-glass me-2"></i>Review ({{ review_tasks.count }})</h5>
+            {% for task in review_tasks %}
+                {% include 'core/task_card.html' with task=task next_status='done' next_text='Done' %}
+            {% empty %}
+                <p class="text-center text-muted small my-3">কোনো টাস্ক নেই</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Done Column -->
+    <div class="col-md-3">
+        <div class="kanban-col shadow-sm">
+            <h5 class="text-success fw-bold mb-3"><i class="fa-solid fa-circle-check me-2"></i>Done ({{ done_tasks.count }})</h5>
+            {% for task in done_tasks %}
+                {% include 'core/task_card.html' with task=task %}
+            {% empty %}
+                <p class="text-center text-muted small my-3">কোনো টাস্ক নেই</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

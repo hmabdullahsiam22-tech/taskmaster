@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }} - TaskMaster{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow p-4">
+            <h3 class="mb-4 text-primary"><i class="fa-solid fa-folder-plus me-2"></i>{{ title }}</h3>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label fw-bold">প্রজেক্ট টাইটেল</label>
+                    {{ form.title }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">বিবরণ</label>
+                    {{ form.description }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">টিম মেম্বার সিলেক্ট করুন</label>
+                    {{ form.members }}
+                </div>
+                <button type="submit" class="btn btn-success fw-bold">প্রজেক্ট সেভ করুন</button>
+                <a href="{% url 'dashboard' %}" class="btn btn-secondary">বাতিল</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
